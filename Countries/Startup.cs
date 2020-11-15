@@ -78,6 +78,32 @@ namespace Countries
 
                 Thread.Sleep(5000);
             }
+
+            CreateCountryTable();
+        }
+
+        private static void CreateCountryTable()
+        {
+            const string server = "10.0.10.3";
+            const string port = "3306";
+            const string uid = "jpodgorniak";
+            const string password = "zaq1@WSX";
+            const string database = "countries";
+
+            using var connection = new MySqlConnection($"server={server};port={port};database={database};uid={uid};pwd={password};");
+            connection.Open();
+
+            var sql = @"
+create table if not exists Country(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    capital VARCHAR(255) NOT NULL,
+    population INT NOT NULL
+);";
+            var command = new MySqlCommand(sql, connection);
+            command.ExecuteNonQuery();
+
+            connection.Close();
         }
     }
 }
