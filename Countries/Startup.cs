@@ -46,17 +46,13 @@ namespace Countries
         {
             Thread.Sleep(10000);
 
-            const string server = "10.0.10.3";
-            const string port = "3306";
-            const string uid = "root";
-            const string password = "admin";
             const string database = "countries";
 
             for (int i = 0; i < 20; i++)
             {
                 try
                 {
-                    using var connection = new MySqlConnection($"server={server};port={port};uid={uid};pwd={password}");
+                    using var connection = new MySqlConnection(Configuration.GetConnectionString("Root"));
                     connection.Open();
 
                     var command = new MySqlCommand($"create database if not exists `{database}`", connection);
@@ -82,15 +78,9 @@ namespace Countries
             CreateCountryTable();
         }
 
-        private static void CreateCountryTable()
+        private void CreateCountryTable()
         {
-            const string server = "10.0.10.3";
-            const string port = "3306";
-            const string uid = "jpodgorniak";
-            const string password = "zaq1@WSX";
-            const string database = "countries";
-
-            using var connection = new MySqlConnection($"server={server};port={port};database={database};uid={uid};pwd={password};");
+            using var connection = new MySqlConnection(Configuration.GetConnectionString("Db"));
             connection.Open();
 
             var sql = @"
